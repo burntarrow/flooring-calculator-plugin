@@ -4,8 +4,8 @@
   "private": true,
   "description": "Build tooling for the Flooring Calculator WordPress plugin",
   "scripts": {
-    "build:css": "tailwindcss -i ./src/index.css -o ./assets/flooring-calculator.css --minify",
-    "build:js": "node scripts/build.js",
-    "build": "npm run build:css && npm run build:js"
-  }
+  "build:css": "tailwindcss -i ./src/index.css -o ./assets/flooring-calculator.css --minify",
+  "build:js": "node scripts/build.js",
+  "build": "npm run build:css && npm run build:js"
+}
 }
