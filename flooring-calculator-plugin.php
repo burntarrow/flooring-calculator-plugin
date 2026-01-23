@@ -68,7 +68,7 @@ function flooring_calculator_enqueue_assets(): void {
 
     wp_enqueue_script(
         'flooring-calculator-app',
-        plugins_url('assets/flooring-calculator.jsx', __FILE__),
+        plugins_url('assets/flooring-calculator.js', __FILE__),
         ['flooring-calculator-react', 'flooring-calculator-react-dom', 'flooring-calculator-babel'],
         FLOORING_CALCULATOR_PLUGIN_VERSION,
         true
