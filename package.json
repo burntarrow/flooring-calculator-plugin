@@ -1,0 +1,9 @@
+{
+  "name": "flooring-calculator-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build tooling for the Flooring Calculator WordPress plugin",
+  "scripts": {
+    "build": "node scripts/build.js"
+  }
+}
