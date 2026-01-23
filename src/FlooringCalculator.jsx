@@ -1052,8 +1052,4 @@ const FlooringCalculator = () => {
   );
 };
 
-const rootEl = document.getElementById('flooring-calculator-root');
-if (rootEl) {
-  const root = ReactDOM.createRoot(rootEl);
-  root.render(<FlooringCalculator />);
-}
+export default FlooringCalculator;
