@@ -35,14 +35,6 @@ function flooring_calculator_enqueue_assets(): void {
     }
 
     wp_enqueue_script(
-        'flooring-calculator-tailwind',
-        'https://cdn.tailwindcss.com',
-        [],
-        FLOORING_CALCULATOR_PLUGIN_VERSION,
-        true
-    );
-
-    wp_enqueue_script(
         'flooring-calculator-react',
         'https://unpkg.com/react@18/umd/react.production.min.js',
         [],
