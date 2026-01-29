@@ -441,47 +441,113 @@ const FlooringCalculator = () => {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <label className="text-[10px] font-bold block mb-1">
-                Max Width ({unitSystem === 'metric' ? 'm' : 'ft'})
+                Max Width ({unitSystem === 'metric' ? 'm' : 'ft/in'})
               </label>
-              <input
-                type="number"
-                step="0.1"
-                className="w-full p-2 border rounded text-sm"
-                onChange={(e) => {
-                  const val = parseFloat(e.target.value) || 0;
-                  setRoomDims((p) => ({
-                    ...p,
-                    w: unitSystem === 'metric' ? val * 39.37 : val * 12,
-                  }));
-                }}
-                value={
-                  unitSystem === 'metric'
-                    ? (roomDims.w / 39.37).toFixed(2)
-                    : (roomDims.w / 12).toFixed(2)
-                }
-              />
+              {unitSystem === 'metric' ? (
+                <input
+                  type="number"
+                  step="0.1"
+                  className="w-full p-2 border rounded text-sm"
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value) || 0;
+                    setRoomDims((p) => ({
+                      ...p,
+                      w: val * 39.37,
+                    }));
+                  }}
+                  value={(roomDims.w / 39.37).toFixed(2)}
+                />
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-[9px] text-slate-400 block mb-1">Feet</label>
+                    <input
+                      type="number"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const feet = parseFloat(e.target.value) || 0;
+                        const inches = roomDims.w % 12;
+                        setRoomDims((p) => ({
+                          ...p,
+                          w: Math.max(0, feet * 12 + inches),
+                        }));
+                      }}
+                      value={Math.floor(roomDims.w / 12)}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-slate-400 block mb-1">Inches</label>
+                    <input
+                      type="number"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const feet = Math.floor(roomDims.w / 12);
+                        const inches = parseFloat(e.target.value) || 0;
+                        setRoomDims((p) => ({
+                          ...p,
+                          w: Math.max(0, feet * 12 + inches),
+                        }));
+                      }}
+                      value={Number((roomDims.w % 12).toFixed(2))}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <label className="text-[10px] font-bold block mb-1">
-                Max Length ({unitSystem === 'metric' ? 'm' : 'ft'})
+                Max Length ({unitSystem === 'metric' ? 'm' : 'ft/in'})
               </label>
-              <input
-                type="number"
-                step="0.1"
-                className="w-full p-2 border rounded text-sm"
-                onChange={(e) => {
-                  const val = parseFloat(e.target.value) || 0;
-                  setRoomDims((p) => ({
-                    ...p,
-                    l: unitSystem === 'metric' ? val * 39.37 : val * 12,
-                  }));
-                }}
-                value={
-                  unitSystem === 'metric'
-                    ? (roomDims.l / 39.37).toFixed(2)
-                    : (roomDims.l / 12).toFixed(2)
-                }
-              />
+              {unitSystem === 'metric' ? (
+                <input
+                  type="number"
+                  step="0.1"
+                  className="w-full p-2 border rounded text-sm"
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value) || 0;
+                    setRoomDims((p) => ({
+                      ...p,
+                      l: val * 39.37,
+                    }));
+                  }}
+                  value={(roomDims.l / 39.37).toFixed(2)}
+                />
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-[9px] text-slate-400 block mb-1">Feet</label>
+                    <input
+                      type="number"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const feet = parseFloat(e.target.value) || 0;
+                        const inches = roomDims.l % 12;
+                        setRoomDims((p) => ({
+                          ...p,
+                          l: Math.max(0, feet * 12 + inches),
+                        }));
+                      }}
+                      value={Math.floor(roomDims.l / 12)}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-slate-400 block mb-1">Inches</label>
+                    <input
+                      type="number"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const feet = Math.floor(roomDims.l / 12);
+                        const inches = parseFloat(e.target.value) || 0;
+                        setRoomDims((p) => ({
+                          ...p,
+                          l: Math.max(0, feet * 12 + inches),
+                        }));
+                      }}
+                      value={Number((roomDims.l % 12).toFixed(2))}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
