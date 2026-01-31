@@ -1,3 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+/*
+  Tailwind v4 preflight is intentionally omitted to avoid global resets that can
+  clash with WordPress themes (e.g. Divi). We keep utilities available, but
+  scope our baseline styling to the app root instead.
+*/
+
+:where(#flooring-calculator-root) {
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: #0f172a;
+  background-color: transparent;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  isolation: isolate;
+}
+
+:where(#flooring-calculator-root) *,
+:where(#flooring-calculator-root) *::before,
+:where(#flooring-calculator-root) *::after {
+  box-sizing: border-box;
+}
+
+:where(#flooring-calculator-root) button,
+:where(#flooring-calculator-root) input,
+:where(#flooring-calculator-root) select,
+:where(#flooring-calculator-root) textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Debug outline helps detect layout/visibility issues when mounted. */
+#flooring-calculator-root[data-debug="true"] {
+  outline: 2px dashed rgba(14, 165, 233, 0.6);
+  outline-offset: 4px;
+}
