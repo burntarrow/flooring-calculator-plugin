@@ -396,6 +396,29 @@ const FlooringCalculator = () => {
     ]);
   };
 
+  const updateRoomDimension = (dimension, { feet, inches }) => {
+    setRoomDims((prev) => {
+      const current = prev[dimension];
+      const currentFeet = Math.floor(current / 12);
+      const currentInches = current - currentFeet * 12;
+      const nextFeet = Number.isFinite(feet) ? feet : currentFeet;
+      const nextInches = Number.isFinite(inches) ? inches : currentInches;
+      const nextTotal = Math.max(0, nextFeet * 12 + nextInches);
+
+      return {
+        ...prev,
+        [dimension]: nextTotal,
+      };
+    });
+  };
+
+  const getFeetInches = (totalInches) => {
+    const feet = Math.floor(totalInches / 12);
+    const inches = Number((totalInches - feet * 12).toFixed(2));
+
+    return { feet, inches };
+  };
+
   // --- RENDER SCALING ---
   const viewWidth = 800;
   const scale = viewWidth / Math.max(roomDims.w, roomDims.l, 1);
@@ -441,47 +464,107 @@ const FlooringCalculator = () => {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <label className="text-[10px] font-bold block mb-1">
-                Max Width ({unitSystem === 'metric' ? 'm' : 'ft'})
+                Max Width ({unitSystem === 'metric' ? 'm' : 'ft/in'})
               </label>
-              <input
-                type="number"
-                step="0.1"
-                className="w-full p-2 border rounded text-sm"
-                onChange={(e) => {
-                  const val = parseFloat(e.target.value) || 0;
-                  setRoomDims((p) => ({
-                    ...p,
-                    w: unitSystem === 'metric' ? val * 39.37 : val * 12,
-                  }));
-                }}
-                value={
-                  unitSystem === 'metric'
-                    ? (roomDims.w / 39.37).toFixed(2)
-                    : (roomDims.w / 12).toFixed(2)
-                }
-              />
+              {unitSystem === 'metric' ? (
+                <input
+                  type="number"
+                  step="0.1"
+                  className="w-full p-2 border rounded text-sm"
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value) || 0;
+                    setRoomDims((p) => ({
+                      ...p,
+                      w: val * 39.37,
+                    }));
+                  }}
+                  value={(roomDims.w / 39.37).toFixed(2)}
+                />
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-[9px] text-slate-400 block">ft</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        updateRoomDimension('w', { feet: Number.isNaN(val) ? 0 : val });
+                      }}
+                      value={getFeetInches(roomDims.w).feet}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-slate-400 block">in</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="11.99"
+                      step="0.1"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const val = parseFloat(e.target.value);
+                        updateRoomDimension('w', { inches: Number.isNaN(val) ? 0 : val });
+                      }}
+                      value={getFeetInches(roomDims.w).inches}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <label className="text-[10px] font-bold block mb-1">
-                  Max Length ({unitSystem === 'metric' ? 'm' : 'ft'})
+                Max Length ({unitSystem === 'metric' ? 'm' : 'ft/in'})
               </label>
-               <input
-                type="number"
-                step="0.1"
-                className="w-full p-2 border rounded text-sm"
-                onChange={(e) => {
-                  const val = parseFloat(e.target.value) || 0;
-                  setRoomDims((p) => ({
-                    ...p,
-                    l: unitSystem === 'metric' ? val * 39.37 : val * 12,
-                  }));
-                }}
-                value={
-                  unitSystem === 'metric'
-                    ? (roomDims.l / 39.37).toFixed(2)
-                    : (roomDims.l / 12).toFixed(2)
-                }
-              />
+              {unitSystem === 'metric' ? (
+                <input
+                  type="number"
+                  step="0.1"
+                  className="w-full p-2 border rounded text-sm"
+                  onChange={(e) => {
+                    const val = parseFloat(e.target.value) || 0;
+                    setRoomDims((p) => ({
+                      ...p,
+                      l: val * 39.37,
+                    }));
+                  }}
+                  value={(roomDims.l / 39.37).toFixed(2)}
+                />
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-[9px] text-slate-400 block">ft</label>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value, 10);
+                        updateRoomDimension('l', { feet: Number.isNaN(val) ? 0 : val });
+                      }}
+                      value={getFeetInches(roomDims.l).feet}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-slate-400 block">in</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="11.99"
+                      step="0.1"
+                      className="w-full p-2 border rounded text-sm"
+                      onChange={(e) => {
+                        const val = parseFloat(e.target.value);
+                        updateRoomDimension('l', { inches: Number.isNaN(val) ? 0 : val });
+                      }}
+                      value={getFeetInches(roomDims.l).inches}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
