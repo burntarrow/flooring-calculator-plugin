@@ -24,6 +24,8 @@ const Calculator = (props) => <Icon {...props}>🧮</Icon>;
 const CheckCircle2 = (props) => <Icon {...props}>✅</Icon>;
 const AlertCircle = (props) => <Icon {...props}>⚠️</Icon>;
 const Move = (props) => <Icon {...props}>↔️</Icon>;
+const ZoomIn = (props) => <Icon {...props}>🔍➕</Icon>;
+const ZoomOut = (props) => <Icon {...props}>🔍➖</Icon>;
 
 const FlooringCalculator = () => {
   // --- STATE ---
@@ -33,6 +35,7 @@ const FlooringCalculator = () => {
   const [direction, setDirection] = useState('horizontal'); // 'horizontal' or 'vertical'
   const [seed, setSeed] = useState(0); // Seed for random generation
   const [showCutList, setShowCutList] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   // Dimensions (Always stored in INCHES internally)
   const [roomDims, setRoomDims] = useState({ w: 144, l: 192 }); // 12x16 ft default
@@ -421,7 +424,9 @@ const FlooringCalculator = () => {
 
   // --- RENDER SCALING ---
   const viewWidth = 800;
-  const scale = viewWidth / Math.max(roomDims.w, roomDims.l, 1);
+  const baseScale = viewWidth / Math.max(roomDims.w, roomDims.l, 1);
+  const scale = baseScale * zoom;
+  const zoomPercent = Math.round(zoom * 100);
 
   return (
     <div
@@ -819,6 +824,29 @@ const FlooringCalculator = () => {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 bg-white border rounded px-2 py-1">
+              <button
+                onClick={() => setZoom((prev) => Math.max(0.5, Number((prev - 0.1).toFixed(2))))}
+                className="text-xs px-2 py-1 rounded hover:bg-slate-100"
+                title="Zoom out"
+              >
+                <ZoomOut />
+              </button>
+              <span className="text-xs font-bold text-slate-600 w-12 text-center">{zoomPercent}%</span>
+              <button
+                onClick={() => setZoom((prev) => Math.min(2, Number((prev + 0.1).toFixed(2))))}
+                className="text-xs px-2 py-1 rounded hover:bg-slate-100"
+                title="Zoom in"
+              >
+                <ZoomIn />
+              </button>
+              <button
+                onClick={() => setZoom(1)}
+                className="text-[11px] px-2 py-1 rounded border bg-slate-50 hover:bg-slate-100"
+              >
+                Reset
+              </button>
+            </div>
             <button
               onClick={() => setShowCutList(!showCutList)}
               className={`text-xs px-3 py-2 rounded font-bold border flex items-center gap-2 transition-colors ${
